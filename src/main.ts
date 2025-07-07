@@ -10,7 +10,6 @@ import { registerClobalCoponents } from "./globalComponents"
 
 export const application = createApp(App)
 
-
 const create = () => {
   const pinia = createPinia()
 
@@ -35,4 +34,5 @@ const create = () => {
   application.mount(`#app`)
 }
 
+//вдруг это либа будет или микрофронт
 create()

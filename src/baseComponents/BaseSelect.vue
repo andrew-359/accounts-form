@@ -5,7 +5,8 @@ import { Select } from '@/types/fields';
 
 const props = defineProps<Select<T>>()
 
-const { value, errorMessage } = useField<T>(() => props.name)
+  const { value, errorMessage } = useField<T>(props.name, props.rules)
+
 </script>
 
 <template>
@@ -13,7 +14,6 @@ const { value, errorMessage } = useField<T>(() => props.name)
       v-model="value"
       :input-id="name"
       :options="options"
-      fluid
       :show-clear="clearButton"
     />
     <small v-if="errorMessage">{{ errorMessage }}</small>

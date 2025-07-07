@@ -1,4 +1,5 @@
 import { FormConfig } from "@/types/main";
+import * as yup from 'yup'
 
 export const ACCOUNT_FORM: FormConfig = {
     title: 'Учетные записи',
@@ -10,16 +11,15 @@ export const ACCOUNT_FORM: FormConfig = {
             placeholder: 'Введите метки через ;',
             help: 'Вводите метки через ;',
             clearButton: true,
-            rules: undefined
+            rules: yup.string().max(50)
         },
         {
             name: 'type',
             type: 'select',
             label: 'Тип записи',
-            initialValue: 'LDAP',
             options: ['LDAP', 'local'],
             clearButton: false,
-            rules: undefined
+            rules: yup.string().oneOf(['LDAP', 'local']).required()
         },
         {
             name: 'login',
@@ -27,7 +27,7 @@ export const ACCOUNT_FORM: FormConfig = {
             label: 'Логин',
             placeholder: 'Введите логин',
             clearButton: true,
-            rules: undefined
+            rules: yup.string().required().max(100)
         },
         {
             name: 'password',
@@ -36,7 +36,13 @@ export const ACCOUNT_FORM: FormConfig = {
             placeholder: 'Введите пароль',
             clearButton: true,
             showIf: (values) => values.type === 'local',
-            rules: undefined
+            //Можно еще поиграться с уровнями абстракция над yup и сделать тут типизированно тоже
+            //и сделать еще чуть красивее, но это оверхед в данной задаче
+            rules: yup.string().max(100).when('type', {
+                is: 'local',
+                then: (schema) => schema.required(),
+                otherwise: (schema) => schema.notRequired()
+            })
         }
     ]
 } as const

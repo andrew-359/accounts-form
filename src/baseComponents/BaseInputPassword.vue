@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InputText from 'primevue/inputtext'
+import PrimePassword from 'primevue/password'
 import { RuleExpression, useField } from 'vee-validate'
 import type { Password } from '@/types/fields';
 import type { MaybeRef } from 'vue';
@@ -13,11 +13,11 @@ const { value, errorMessage } = useField<string>(() => props.name, props.rules a
 </script>
 
 <template>
-  <InputText
+  <PrimePassword
     v-model="value"
     :placeholder="placeholder"
     :input-id="name"
-    fluid
+    toggleMask
   />
   <small v-if="errorMessage">{{ errorMessage }}</small>
 </template>

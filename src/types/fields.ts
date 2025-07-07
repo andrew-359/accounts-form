@@ -1,4 +1,6 @@
 // Типы для вариантов поля
+import type { Schema } from 'yup';
+
 export type FieldType = 'text' | 'password' | 'select';
 
 export type FieldBase<T extends FieldType, V = unknown> = {
@@ -9,9 +11,8 @@ export type FieldBase<T extends FieldType, V = unknown> = {
     help?: string;
     initialValue?: V;
     clearButton?: boolean
-    //todo - позже
+    rules?: Schema<unknown>
     showIf?: (values: Record<string, unknown>) => boolean;
-    rules: unknown
   };
 
 

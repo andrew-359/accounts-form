@@ -1,34 +1,28 @@
-<script setup lang="ts" generic="T">
-import { FieldType } from '@/types/fields';
-import { Account, FormConfig } from '@/types/main';
-import { RuleExpression, useForm } from 'vee-validate';
-
+<script setup lang="ts"">
+import { UIFormPublicInstance, useBaseForm } from '@/composables/useBaseForm/useBaseForm';
+import { FormConfig } from '@/types/main';
 
 const props = defineProps<{
-  config?: FormConfig
+  config: FormConfig,
 }>()
 
-const fieldComponentMap = {
-  text: 'UIInputText',
-  password: 'UIInputPassword',
-  select: 'UISelect'
-} as const satisfies Record<FieldType, string>;
+const { submit, values, fieldComponentMap, setValues } = useBaseForm(props.config)
 
-const { errors, values } = useForm<Account>({
-  validationSchema: {},
-})
+defineExpose<UIFormPublicInstance>({ submit, setValues });
 </script>
+
 
 <!-- на случай если форма оч сложная и нет времени расширять конструктор - можно "захардкодить форму" и вставить в slot -->
 <template>
-  {{  values }}{{ errors }}
-  <div v-if="config">
+  <form v-if="config">
     <template v-for="field in config.fields" :key="field.name">
       <component
+        v-if="!field.showIf || field.showIf(values)"
         :is="fieldComponentMap[field.type]"
         v-bind="field"
       />
     </template>
-  </div>
+  </form>
   <slot></slot>
 </template> 
+
