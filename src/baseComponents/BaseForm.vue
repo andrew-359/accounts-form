@@ -6,9 +6,9 @@ const props = defineProps<{
   config: FormConfig,
 }>()
 
-const { submit, values, fieldComponentMap, setValues } = useBaseForm(props.config)
+const { submit, values, fieldComponentMap, setValues, resetValidate } = useBaseForm(props.config)
 
-defineExpose<UIFormPublicInstance>({ submit, setValues });
+defineExpose<UIFormPublicInstance>({ submit, setValues, resetValidate });
 </script>
 
 

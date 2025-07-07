@@ -7,7 +7,7 @@ import { getIcon } from '@/utils/iconsMapper';
 
 const { removeAccount, addAccount, getAccounts } = useAccountsStore()
 
-const { onSave, forms } = useAccountsForms()
+const { onSave, formsRefs } = useAccountsForms()
 
 // задел на централизованное управление кнопками
 const BUTTONS = {
@@ -34,7 +34,7 @@ const BUTTONS = {
   >
     <UIForm
       :config="ACCOUNT_FORM"
-      ref="forms"
+      ref="formsRefs"
     />
     <UIButton 
       :icon="BUTTONS.delete.icon"

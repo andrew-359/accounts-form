@@ -14,13 +14,14 @@ export interface UIFormPublicInstance {
     //расширяемо
     submit: <T, M>(meta: M) => Promise<SubmitedPayload<T, M>>;
     setValues: <T extends Record<string, unknown>>(arg: T) => void
+    resetValidate: () => unknown
 }
 
 export const useBaseForm = (config: FormConfig) => {
     const shape = createValidationShape(config?.fields)
     const schema = object().shape(shape);
 
-    const { validate, values, setValues } = useForm({
+    const { validate, values, setValues, resetForm } = useForm({
         validationSchema: toTypedSchema(schema),
         initialValues: config?.fields.reduce((acc, field) => {
             acc[field.name] = field.initialValue;
@@ -33,7 +34,15 @@ export const useBaseForm = (config: FormConfig) => {
         return { valid, values: values as T, meta };
     };
 
+    const reset = () => {
+        //TODO
+        resetForm({
+            values,
+            errors: {}
+        })
+    }
+
     return {
-        submit, values, fieldComponentMap, setValues
+        submit, values, fieldComponentMap, setValues, resetValidate: reset
     }
 }
