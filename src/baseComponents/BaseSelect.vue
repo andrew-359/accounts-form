@@ -1,32 +1,20 @@
 <script setup lang="ts" generic="T">
 import { useField } from 'vee-validate'
-import Select from 'primevue/select'
+import PrimeSelect from 'primevue/select'
+import { Select } from '@/types/fields';
 
-// в данном сучае короче диструктуризации + не используем пропы внутри <script>
-const props = withDefaults(
-  defineProps<{ 
-    name: string
-    loading?: boolean
-    options: T[]
-    showClear?: boolean
-    initialValue?: T
-      // TODO
-    rules?: any
-  }>(), 
-  { showClear: false }
-)
+const props = defineProps<Select<T>>()
 
 const { value, errorMessage } = useField<T>(() => props.name)
 </script>
 
 <template>
-    <Select
+    <PrimeSelect
       v-model="value"
       :input-id="name"
-      :loading="loading"
       :options="options"
       fluid
-      :show-clear="showClear"
+      :show-clear="clearButton"
     />
     <small v-if="errorMessage">{{ errorMessage }}</small>
 </template>

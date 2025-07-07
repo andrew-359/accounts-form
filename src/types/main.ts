@@ -1,3 +1,5 @@
+import type { Field } from '@/types/fields'
+
 export interface SystemConfig {
     appTitle: string
 }
@@ -16,3 +18,8 @@ export interface Account {
 }
   
 export type AccountList = Account[];
+
+export interface FormConfig {
+    title: string,
+    fields: Field[]
+}

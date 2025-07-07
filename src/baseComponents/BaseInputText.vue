@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { useField } from 'vee-validate'
+import { RuleExpression, useField } from 'vee-validate'
 import InputText from 'primevue/inputtext'
+import { Text } from '@/types/fields';
+import { MaybeRef } from 'vue';
 
-const props = defineProps<{ 
-  name: string
-  label?: string
-  initialValue?: string
-  placeholder?: string
-  // TODO
-  rules?: any
-}>()
+const props = defineProps<Text>()
 
-const { value, errorMessage } = useField<string>(() => props.name, props.rules, {
-  initialValue: props.initialValue,
-})
+//TODO
+const { value, errorMessage } = useField<string>(() => props.name, props.rules as MaybeRef<RuleExpression<string>>)
 </script>
 
 <template>
