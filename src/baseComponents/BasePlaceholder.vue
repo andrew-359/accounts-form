@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <img src="@/assets/placeholder.png" />
+  <img src="@/assets/placeholder.png">
 </template> 
 
 <style lang="scss" scoped>

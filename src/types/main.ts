@@ -1,43 +1,56 @@
 import type { Field } from '@/types/fields'
+import { Nullable } from './utils'
 
 export interface SystemConfig {
-    appTitle: string
+  appTitle: string
+  defaultConfig: FormConfig
 }
 
 export type AccountLabel = {
-    text: string;
+  text: string
 }
   
-export type AccountType = 'LDAP' | 'local';
+export type AccountType = `LDAP` | `local`
   
-/**
- * Одна учётная запись (валидная)
- */
+
 export type Account = {
-    id: string
-    labels: AccountLabel[]; 
-    type: AccountType;
-    login: string;
-    password?: string;
+  id: string
+  labels: Nullable<AccountLabel[]>; 
+  type: Nullable<AccountType>
+  login: Nullable<string>
+  password?: Nullable<string>
 }
 
-/**
- * Массив учётных записей
- */
-export type AccountList = Account[];
+export type AccountList = Account[]
 
-/**
- * Массив валидных учётных записей (для обновления)
- * Совпадает по структуре с AccountList
- */
-export type ValidAccountList = AccountList;
+export type ValidAccountList = AccountList
 
 export interface FormConfig {
-    title: string,
-    fields: Field[]
+  title: string
+  fields: Field[]
 }
 
 export interface AccountsService {
-    saveAccounts: (accs: AccountList) => boolean,
-    loadAccounts: () => AccountList | false
+  //расширяемо
+  saveAccounts: (accs: AccountList) => boolean
+  loadAccounts: () => AccountList | false
+  resetDB: () => void
+}
+
+export interface NotificationServie {
+  push: (arg: Notification) => void
+}
+
+export interface ConfirmDialogOptions {
+  text?: string
+  onConfirm?: () => void
+  onCancel?: () => void
+}
+
+//точка расширения
+export type NotificationType = `success` | `error` | `info` | `warning`
+
+export type Notification = {
+  type: NotificationType
+  message: string
 }

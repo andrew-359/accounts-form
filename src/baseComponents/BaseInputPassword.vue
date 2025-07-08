@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import PrimePassword from 'primevue/password'
 import { RuleExpression, useField } from 'vee-validate'
-import type { Password } from '@/types/fields';
-import type { MaybeRef } from 'vue';
+import type { Password } from '@/types/fields'
+import type { MaybeRef } from 'vue'
 
 const props = defineProps<Password>()
 
@@ -13,11 +13,20 @@ const { value, errorMessage } = useField<string>(() => props.name, props.rules a
 </script>
 
 <template>
-  <PrimePassword
-    v-model="value"
-    :placeholder="placeholder"
-    :input-id="name"
-    toggleMask
-  />
-  <small v-if="errorMessage">{{ errorMessage }}</small>
+  <div>
+    <PrimePassword
+      v-model="value"
+      :placeholder="placeholder"
+      :input-id="name"
+      toggle-mask
+      class="w-full shadow-sm hover:shadow-green-500 transition-all duration-300 ease-in-out"
+      :invalid="!!errorMessage"
+      fluid
+      v-tooltip.top="help"
+    />
+    <small
+      v-if="errorMessage"
+      class="text-red-500"
+    >{{ errorMessage }}</small>
+  </div>
 </template>

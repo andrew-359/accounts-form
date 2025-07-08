@@ -1,10 +1,10 @@
 import { createApp } from "vue"
 import { createPinia } from "pinia"
 import PrimeVue from "primevue/config"
-import 'primeicons/primeicons.css'
 import './styles/tailwind.scss'
+import 'primeicons/primeicons.css'
 import App from "./App.vue"
-import { CustomAura } from "@/theme"  
+import { CustomAura } from "@/_configs/theme"  
 import Tooltip from 'primevue/tooltip'
 import { registerClobalCoponents } from "./globalComponents"
 
@@ -21,8 +21,8 @@ const create = () => {
         preset: CustomAura,
         options: {
           cssLayer: {
-            name: 'primevue',
-            order: 'theme, base, primevue'
+            name: `primevue`,
+            order: `theme, base, primevue`
           }
         }
       },

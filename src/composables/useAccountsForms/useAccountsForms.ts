@@ -1,41 +1,46 @@
 import { useAccountsStore } from "@/stores/accounts"
-import { nextTick, onMounted, ref } from "vue"
-import { UIFormPublicInstance } from "../useBaseForm/useBaseForm"
-import { FieldMeta, FormValues, ValidatedAccountForm } from "./types"
-import { Account } from "@/types/main"
+import { nextTick, onMounted } from "vue"
+import { FormPublicInstance } from "../useBaseForm/useBaseForm"
+import { FormValues, ValidatedAccountForm } from "./types"
+import { formsRefs } from "@/composables/useAccountsForms/formsRefs"
 
 export const useAccountsForms = () => {
-    const { loadAccounts, updateAccounts, getAccounts } = useAccountsStore()
-    const formsRefs = ref<UIFormPublicInstance[]>([])
+  const { loadAccounts, getAccounts } = useAccountsStore()
 
-    const setValues = () => {
-        formsRefs.value.map((form, idx) => {
-            //расширяемо
-            form.setValues<Account>({ ...getAccounts.value[idx] })
-            form.resetValidate()
-        })
-    }
+  const setValues = () => {
+    formsRefs.value.forEach((form: FormPublicInstance, idx: number) => {
+      form.setValues({ ...getAccounts.value[idx] })
+      form.resetValidate()
+    })
+  }
     
-    const onSave = async () => {
-        const results: ValidatedAccountForm[] = await Promise.all(
-            formsRefs.value.map((form, idx) =>
-                //расширяемо
-                form.submit<FormValues, FieldMeta>({ id: getAccounts.value[idx].id })
-            )
-        );
+  const onSave = async () => {
+    const results: ValidatedAccountForm[] = await Promise.all(
+      formsRefs.value.map((form: FormPublicInstance, idx: number) =>
+        form.submit<FormValues, { id: string }>({ id: getAccounts.value[idx].id })
+      )
+    )
 
-        updateAccounts(results)
-    }
-
-    onMounted(async() => {
-        loadAccounts()
-        await nextTick();
-        setValues()
+    results.forEach((result, idx) => {
+      if (result.valid) {
+        formsRefs.value[idx].showSuccessAnimation()
+      }
     })
 
-    return {
-        onSave,
-        formsRefs,
-        setValues
-    }
+    return results
+  }
+
+  onMounted(async() => {
+    loadAccounts()
+    await nextTick()
+    setValues()
+  })
+
+  return {
+    onSave,
+    formsRefs,
+    setValues
+  }
 }
+
+export type AccountsForms = ReturnType<typeof useAccountsForms>

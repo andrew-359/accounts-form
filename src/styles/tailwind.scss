@@ -1,2 +1,25 @@
 @use "tailwindcss";
 @use "tailwindcss-primeui";
+
+:root {
+    --success-glow-animation: success-glow 1s ease-in-out;
+}
+
+@keyframes success-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(6, 182, 212, 0);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 2px 2px rgba(6, 182, 212, 0.7);
+        transform: scale(1.0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(6, 182, 212, 0);
+        transform: scale(1);
+    }
+}
+
+.animate-success-glow {
+    animation: var(--success-glow-animation);
+}

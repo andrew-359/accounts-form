@@ -1,5 +1,5 @@
-import { AccountList } from "@/types/main";
+import { AccountList } from "@/types/main"
 
 export interface AccountsState {
-   accounts: AccountList
+  accounts: AccountList
 }
